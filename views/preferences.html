@@ -1,0 +1,119 @@
+<div class='ui fluid container' ng-controller='preferencesCtrl'>
+	<div class='large-title bg-blue bg-fancy'>Preferences</div>
+	<div class='ui container'>
+		<form class='ui form' ng-submit='savePreferences()'>
+			<!-- General -->
+			<h2 class='ui horizontal divider header'>
+				<i class='setting icon'></i> General
+			</h2>
+			<div class='field'>
+				<label>You</label>
+				<input type='text' placeholder='Your name' ng-model='config.name'>
+			</div>
+			<div class='two fields'>
+				<div class='field'>
+					<label>Config file</label>
+					<input type='text' readonly='' ng-model='configPath'>
+				</div>
+				<div class='field'>
+					<label>Data file</label>
+					<input type='text' readonly='' ng-model='dataPath'>
+				</div>
+			</div>
+
+			<!-- Git -->
+			<h2 class='ui horizontal divider header'>
+				<i class='fork icon'></i> Git
+			</h2>
+			<div class='ui two column grid'>
+				<div class='column'>
+					<h2 class='ui center aligned header'>
+						<i class='github icon'></i> GitHub
+					</h2>
+					<div class='field'>
+						<label>Username</label>
+						<input type='text' placeholder='Default username' ng-model='config.git.apis.github.username'>
+					</div>
+					<div class='field'>
+						<label>Password</label>
+						<input type='password' placeholder='Default password' ng-model='config.git.apis.github.password'>
+					</div>
+					<div class='field'>
+						<label>SSH private key</label>
+						<input type='text' placeholder='The location of your private key' ng-model='config.git.apis.github.privateKey'>
+					</div>
+				</div>
+				<div class='column'>
+					<h2 class='ui center aligned header'>
+						<i class='git square icon'></i> BLIH
+					</h2>
+					<div class='field'>
+						<label>Username</label>
+						<input type='text' placeholder='Default username' ng-model='config.git.apis.blih.username'>
+					</div>
+					<div class='field'>
+						<label>Legacy Username</label>
+						<div class='ui icon input'>
+							<input type='text' placeholder='Default username' ng-model='config.git.apis.blih.legacyUsername'
+									data-content='This is used to clone your repository. Usually the same as your regular username.' data-variation='wide inverted'>
+							<i class='circle help icon'></i>
+						</div>
+					</div>
+					<div class='field'>
+						<label>Password</label>
+						<input type='password' placeholder='Default password' ng-model='config.git.apis.blih.password'>
+					</div>
+					<div class='field'>
+						<label>SSH private key</label>
+						<input type='text' placeholder='The location of your private key' ng-model='config.git.apis.blih.privateKey'>
+					</div>
+				</div>
+			</div>
+
+			<!-- Projects -->
+			<h2 class='ui horizontal divider header'>
+				<i class='lab icon'></i> Projects
+			</h2>
+			<div class='field'>
+				<label>Default project directory</label>
+				<input type='text' placeholder='The location of your active projects' ng-model='config.projects.directory'>
+			</div>
+			<div class='field'>
+				<label>Boilerplates directory</label>
+				<input type='text' placeholder='The location of your boilerplates' ng-model='config.projects.boilerplates'>
+			</div>
+			<div class='field'>
+				<label>Archive directory</label>
+				<input type='text' placeholder='The location of your archived projects' ng-model='config.archives.directory'>
+			</div>
+			<div class='inline field'>
+				<div class='ui toggle checkbox'>
+					<input type="checkbox" ng-model='config.archives.autoArchive'>
+					<label>Automatically archive projects when they reach their deadline</label>
+				</div>
+			</div>
+
+			<!-- Appearance -->
+			<h2 class='ui horizontal divider header'>
+				<i class='paint brush icon'></i> Appearance
+			</h2>
+			<div class='field' ng-repeat='(key, language) in config.languages'>
+				<h3><div class='ui empty {{ language.color }} circular label'></div> {{ language.name }}</h3>
+				<div class='ui centered grid'>
+					<div class='column' ng-repeat='color in colors'>
+						<div class='ui {{ color.value }} circular label color-pick' ng-click='selectColor(key, color.value)'></div>
+					</div>
+				</div>
+			</div>
+
+			<button class='ui fluid positive button' type='submit'>Save</button>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+	/*
+	 * Semantic init
+	 */
+	 $('input').popup({ on: 'focus' })
+</script>

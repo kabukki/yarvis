@@ -1,0 +1,41 @@
+<html ng-app='yarvis'>
+	<head>
+		<title>Y.A.R.V.I.S</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="assets/css/semantic.min.css" />
+		<link rel="stylesheet" href="assets/css/calendar.min.css" />
+		<link rel="stylesheet" href="assets/css/devicon.min.css" />
+		<link rel="stylesheet" href="assets/css/custom.css" />
+
+
+		<script>window.$ = window.jQuery = require('./assets/js/jquery-3.2.1.min.js');</script>
+		<script src='assets/js/semantic.min.js'></script>
+		<script src='assets/js/calendar.min.js'></script>
+		<script src='assets/js/angular.min.js'></script>
+		<script src='assets/js/angular-ui-router.min.js'></script>
+	</head>
+	<body>
+		<div class='ui labeled icon four item pointing menu'>
+			<a class='item' ui-sref='projects.all'><i class='lab icon'></i> Projects</a>
+			<a class='item' ui-sref='libraries'><i class='book icon'></i> Libraries</a>
+			<a class='item' ui-sref='statistics'><i class='bar chart icon'></i> Statistics</a>
+			<a class='item' ui-sref='preferences'><i class='settings icon'></i> Preferences</a>
+		</div>
+
+		<ui-view></ui-view>
+	</body>
+	<script type="text/javascript">
+		const moment = require('moment');
+		const dirTree = require('directory-tree');
+
+		require('./yarvis.js');
+		require('./controllers/projects.js');
+		require('./controllers/statistics.js');
+		require('./controllers/preferences.js');
+
+		$('.ui .item').on('click', function() {
+		   $('.ui .item').removeClass('active');
+		   $(this).addClass('active');
+		}); 
+	</script>
+</html>

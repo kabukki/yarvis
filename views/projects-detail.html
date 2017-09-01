@@ -1,0 +1,132 @@
+<div class='ui container'  ng-controller='projectsDetailCtrl'>
+	<!-- General info -->
+	<h2 class='ui horizontal divider header'>
+		<i class='address card icon'></i> {{ project.name }}
+	</h2>
+	<div class='ui segments'>
+		<div class='ui center aligned {{ config.languages[project.language].color }} segment'>
+			<p>{{ project.description }}</p>
+		</div>
+		<div class='ui horizontal segments'>
+			<div class='ui center aligned segment'>
+				<h1 class='ui {{ config.languages[project.language].color }} header'><i class='devicon-{{ project.language }}-plain'></i></h1>
+			</div>
+			<div class='ui center aligned segment'>
+				<p>{{ getStartString(project) }}</p>
+			</div>
+			<div class='ui center aligned segment' ng-show='project.deadline'>
+				<p>{{ getDeadlineString(project) }}</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Overview -->
+	<h2 class='ui horizontal divider header'>
+		<i class='folder open icon'></i> Overview
+	</h2>
+	<div class='ui segments'>
+		<div class='ui segment'>
+			{{ project.directory }}
+		</div>
+		<div class='ui secondary segment'>
+			<div class='ui negative message' ng-show='filesError'>
+				<div class="header">{{ filesError.name }}</div>
+				<p>{{ filesError.message }}</p>
+			</div>
+			<tree-view root='files' depth='2' ng-if='!filesError'></tree-view>
+		</div>
+	</div>
+
+	<!-- Git -->
+	<h2 class='ui horizontal divider header' ng-show='project.git.enabled && !filesError'>
+		<i class='fork icon'></i> Git
+	</h2>
+	<div class='ui segment' ng-show='project.git.enabled && !filesError'>
+		<div class='ui list'>
+			<div class='item'>
+				<div class='header'>API</div>
+				{{ project.git.api }}
+			</div>
+			<div class='item'>
+				<div class='header'>Remote (origin)</div>
+				{{ project.git.remote }}
+			</div>
+		</div>
+	</div>
+
+	<!-- Actions -->
+	<h2 class='ui horizontal divider header'>
+		<i class='configure icon'></i> Actions
+	</h2>
+	<div class='ui segment' ng-class="{'loading': loading == true}">
+		<div class='ui negative message' ng-show='error'>
+			<div class='header'>Sorry, this action ran into an error.</div>
+			<p><strong>{{ error.message }} {{error.stack}}</strong></p>
+		</div>
+		<div class='ui middle aligned list'>
+			<!-- Terminal -->
+			<div class='item' ng-hide='filesError'>
+				<i class='big inverted circular teal folder open link icon' ng-click='openDirectory(project.directory)'></i>
+				<div class='content'>
+					<div class='header'>Open in file manager</div>
+					<div class='description'>Launch a file manager in this project's directory</div>
+				</div>
+			</div>
+			<!-- Library -->
+			<div class='item' ng-hide='filesError'>
+				<i class='disabled big inverted circular teal book link icon' ng-click="action('addLibrary')"></i>
+				<div class='content'>
+					<div class='header'>Add library</div>
+					<div class='description'>Include a library to this project</div>
+				</div>
+			</div>
+			<!-- Move -->
+			<div class='item' ng-hide='filesError'>
+				<i class='disabled big inverted circular teal folder link icon' ng-click="action('move')"></i>
+				<div class='content'>
+					<div class='header'>Relocate</div>
+					<div class='description'>Move this project</div>
+				</div>
+			</div>
+			<!-- Archive/Unarchive -->
+			<div class='item' ng-hide='filesError || project.isArchive()'>
+				<i class='big inverted circular teal archive link icon' ng-click="action('archive')"></i>
+				<div class='content'>
+					<div class='header'>Archive</div>
+					<div class='description'>Archive this project</div>
+				</div>
+			</div>
+			<div class='item' ng-hide='filesError || project.isProject()'>
+				<i class='big inverted circular teal lab link icon' ng-click="action('unarchive')"></i>
+				<div class='content'>
+					<div class='header'>Unarchive</div>
+					<div class='description'>Unarchive this project</div>
+				</div>
+			</div>
+			<!-- Forget -->
+			<div class='item'>
+				<i class='big inverted circular yellow remove link icon' ng-click="action('forget', true)"></i>
+				<div class='content'>
+					<div class='header'>Stop tracking in YARVIS</div>
+					<div class='description'>Delete this project from YARVIS, but keep it on disk and remote.</div>
+				</div>
+			</div>
+			<!-- Delete -->
+			<div class='item' ng-hide='filesError'>
+				<i class='big inverted circular orange trash link icon' ng-click="action('deleteLocal', true)"></i>
+				<div class='content'>
+					<div class='header'>Delete locally</div>
+					<div class='description'>Delete this project from your disk, but leave the remote untouched.</div>
+				</div>
+			</div>
+			<div class='item' ng-hide='filesError || !project.git.enabled'>
+				<i class='big inverted circular red trash link icon' ng-click="action('deleteGlobal', true)"></i>
+				<div class='content'>
+					<div class='header'>Delete globally</div>
+					<div class='description'>Delete this project from your disk and its remote.</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,3 @@
+create project: validation des donnees via .form() ?
+Plus tard: gerer l'edition de projets (ajout de git, deadline ...)
+Lors de la creation : choix entre nouveau repo et assigner un repo existant

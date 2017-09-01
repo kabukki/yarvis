@@ -1,0 +1,108 @@
+<!-- Steps -->
+<div class='ui fluid steps'>
+	<a class='active step' ui-sref='projects.new.project'>
+		<i class='code icon'></i>
+		<div class='content'>
+			<div class='title'>Project</div>
+			<div class='description'>Define the project</div>
+		</div>
+	</a>
+	<a class='step' ui-sref='projects.new.git'>
+		<i class='git square icon'></i>
+		<div class='content'>
+			<div class='title'>Git</div>
+			<div class='description'>Set Git options</div>
+		</div>
+	</a>
+	<a class='step' ui-sref='projects.new.boilerplate'>
+		<i class='file icon'></i>
+		<div class='content'>
+			<div class='title'>Boilerplate</div>
+			<div class='description'>Setup the minimal files</div>
+		</div>
+	</a>
+</div>
+
+<!-- Form -->
+<form class='ui segment piled form'>
+	<div class='two fields'>
+		<div class='required field'>
+			<label>Project name</label>
+			<input type='text' name='name' ng-model='project.name' ng-change='updateDirectory()'>
+		</div>
+		<div class='required field'>
+			<label>Language</label>
+			<select class='ui selection dropdown' name='language' ng-model='project.language'>
+				<option value='{{ key }}' ng-repeat='(key, language) in config.languages'>{{ language.name }}</option>
+			</select>
+		</div>
+	</div>
+	<div class='required field'>
+		<label>Directory</label>
+		<input type='text' name='directory' ng-model='project.directory'>
+	</div>
+	<div class='field'>
+		<label>Description</label>
+		<input type='text' name='description' ng-model='project.description'>
+	</div>
+	<div class='two fields'>
+		<div class='required field'>
+			<label>Starting date</label>
+			<div id='startCalendar' class='ui calendar'>
+				<div class='ui input left icon'>
+					<i class='calendar icon'></i>
+					<input type='text' placeholder='Date' name='started' ng-model='project.start'>
+				</div>
+			</div>
+		</div>
+		<div class='field'>
+			<label>Deadline</label>
+			<div id='deadlineCalendar' class='ui calendar'>
+				<div class='ui input left icon'>
+					<i class='calendar icon'></i>
+					<input type='text' placeholder='Date' name='deadline' ng-model='project.deadline'>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class='ui divider'></div>
+
+	<div class='ui center aligned grid'>
+		<div class='column'>
+			<button class='ui positive right labeled icon button' type='submit' ui-sref='projects.new.git'>
+				<i class='right arrow icon'></i>Next
+			</button>
+		</div>
+	</div>
+</form>
+
+
+<script type="text/javascript">
+	$('.ui.dropdown').dropdown();
+	/* Quick & dirty fix - ngModel doesnt update. Try using $watch instead ? */
+	$('#startCalendar').calendar({
+		onChange: (date, text) => {
+			$('#startCalendar input').val(moment(date).format()).trigger('change');
+		}
+	});
+	$('#deadlineCalendar').calendar({
+		onChange: (date, text) => {
+			$('#deadlineCalendar input').val(moment(date).format()).trigger('change');
+		}
+	});
+
+	/* Form validation */
+	$.fn.form.settings.rules.validDate = (date) => moment(date).isValid();
+	$('.ui.form').form({
+		fields: {
+			name: 'empty',
+			language: 'empty',
+			directory: 'empty',
+			started: 'validDate',
+			deadline: 'validDate'
+		},
+		onSuccess: () => { console.log('success'); },
+		onFailure: () => { console.log('failure'); }
+	});
+</script>

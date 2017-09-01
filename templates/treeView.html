@@ -1,0 +1,17 @@
+
+<script type="text/ng-template" id="treeItemRenderer">
+	<i ng-class="node.type == 'directory' ? 'folder icon' : 'file outline icon'"></i>
+	<div class='content'>
+		<div class='header'>{{ node.name }}</div>
+		<div class='list' ng-if='node.children && depth > 0'>
+			<div class='item' ng-repeat="node in node.children | orderBy: ['type', 'name']" ng-include="'treeItemRenderer'" ng-init='depth = depth - 1'></div>
+	    </div>
+		<div class='list' ng-if='node.children && depth <= 0'>
+			...
+	    </div>
+	</div>
+</script>
+
+<div class='ui list'>
+    <div class='item' ng-repeat="node in root.children | orderBy: ['type', 'name']" ng-include="'treeItemRenderer'" ng-init='depth = depth - 1'></div>
+</div>

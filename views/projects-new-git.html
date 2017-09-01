@@ -1,0 +1,95 @@
+<!-- Steps -->
+<div class='ui fluid steps'>
+	<a class='completed step' ui-sref='projects.new.project'>
+		<i class='code icon'></i>
+		<div class='content'>
+			<div class='title'>Project</div>
+			<div class='description'>Define the project</div>
+		</div>
+	</a>
+	<a class='active step' ui-sref='projects.new.git'>
+		<i class='git square icon'></i>
+		<div class='content'>
+			<div class='title'>Git</div>
+			<div class='description'>Set Git options</div>
+		</div>
+	</a>
+	<a class='step' ui-sref='projects.new.boilerplate'>
+		<i class='file icon'></i>
+		<div class='content'>
+			<div class='title'>Boilerplate</div>
+			<div class='description'>Setup the minimal files</div>
+		</div>
+	</a>
+</div>
+
+<!-- Form -->
+<form class='ui piled segment form'>
+	<!-- Git -->
+	<div class='inline field'>
+		<div class='ui checkbox'>
+			<input type="checkbox" ng-model='project.git.enabled'>
+			<label>Use version control with Git</label>
+		</div>
+	</div>
+	<div class='ui two column grid'>
+		<div class='column'>
+			<div class='inline fields' ng-class="!project.git.enabled ? 'disabled' : ''">
+				<label for='gitAPI'>Remote host API to use:</label>
+				<div class='field'>
+					<div class='ui radio checkbox'>
+						<input type="radio" name='gitAPI' value='github' ng-model='project.git.api' ng-change='updateCredentials()'>
+						<label>GitHub</label>
+					</div>
+				</div>
+				<div class='field'>
+					<div class='ui radio checkbox'>
+						<input type="radio" name='gitAPI' value='blih' ng-model='project.git.api' ng-change='updateCredentials()'>
+						<label>Blih</label>
+					</div>
+				</div>
+				<div class='field'>
+					<div class='ui radio checkbox'>
+						<input type="radio" name='gitAPI' value='other' ng-model='project.git.api' ng-change='updateCredentials()'>
+						<label>Other (unused)</label>
+					</div>
+				</div>
+			</div>
+			<div class='ui horizontal divider'>Or</div>
+			<div class='field'>
+				<label>Remote host URL</label>
+				<input type="text" ng-model='project.git.remote'>
+			</div>
+		</div>
+		<!-- start right -->
+		<div class='column'>
+			<div class='field' ng-class="!project.git.enabled ? 'disabled' : ''">
+				<label>Username</label>
+				<input type='text' name='username' ng-model='project.git.username'>
+			</div>
+			<div class='field' ng-class="!project.git.enabled ? 'disabled' : ''">
+				<label>Password</label>
+				<input type='password' name='password' ng-model='project.git.password'>
+			</div>
+		</div>
+	</div>
+
+	<div class='ui divider'></div>
+
+	<div class='ui center aligned grid'>
+		<div class='column'>
+			<button class='ui positive right labeled icon button' type='submit' ui-sref='projects.new.boilerplate'>
+				<i class='right arrow icon'></i>Next
+			</button>
+		</div>
+	</div>
+</form>
+
+<script type="text/javascript">
+	/* Form validation */
+	$('.ui.form').form({
+		fields: {},
+		onSuccess: () => { console.log('success'); },
+		onFailure: () => { console.log('failure'); }
+	});
+</script>
