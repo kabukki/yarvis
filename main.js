@@ -44,19 +44,16 @@ const config = new Store({
 		"git": {
 			"apis": {
 				"github": {
+					"name": "GitHub",
 					"username": "",
 					"password": "",
 					"privateKey": "",
 					"authentication": "basic"
 				},
 				"blih": {
+					"name": "BLIH",
 					"username": "",
 					"legacyUsername": "",
-					"password": "",
-					"privateKey": ""
-				},
-				"other": {
-					"username": "",
 					"password": "",
 					"privateKey": ""
 				}
