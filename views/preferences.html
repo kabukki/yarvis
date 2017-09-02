@@ -36,11 +36,19 @@
 					</div>
 					<div class='field'>
 						<label>Password</label>
-						<input type='password' placeholder='Default password' ng-model='config.git.apis.github.password'>
+						<div class='ui icon input'>
+							<input type='password' placeholder='Default password' ng-model='config.git.apis.github.password'
+									data-content='Saving your password is convenient, but not really safe. Consider not providing a default one.' data-variation='wide inverted'>
+							<i class='warning sign icon'></i>
+						</div>
 					</div>
 					<div class='field'>
 						<label>SSH private key</label>
-						<input type='text' placeholder='The location of your private key' ng-model='config.git.apis.github.privateKey'>
+						<div class='ui file input' ng-click='selectPath("git.apis.github.privateKey")'>
+							<input type='text' readonly='' placeholder='The location of your private key' ng-model='config.git.apis.github.privateKey'>
+							<input type='file'>
+							<div class="ui blue icon button"><i class="file icon"></i></div>
+						</div>
 					</div>
 				</div>
 				<div class='column'>
@@ -54,18 +62,26 @@
 					<div class='field'>
 						<label>Legacy Username</label>
 						<div class='ui icon input'>
-							<input type='text' placeholder='Default username' ng-model='config.git.apis.blih.legacyUsername'
-									data-content='This is used to clone your repository. Usually the same as your regular username.' data-variation='wide inverted'>
+							<input type='text' placeholder='Legacy username' ng-model='config.git.apis.blih.legacyUsername'
+									data-content='This is part of your remote URL. Usually the same as your regular username.' data-variation='wide inverted'>
 							<i class='circle help icon'></i>
 						</div>
 					</div>
 					<div class='field'>
 						<label>Password</label>
-						<input type='password' placeholder='Default password' ng-model='config.git.apis.blih.password'>
+						<div class='ui icon input'>
+							<input type='password' placeholder='Default password' ng-model='config.git.apis.blih.password'
+									data-content='Saving your password is convenient, but not really safe. Consider not providing a default one.' data-variation='wide inverted'>
+							<i class='warning sign icon'></i>
+						</div>
 					</div>
 					<div class='field'>
 						<label>SSH private key</label>
-						<input type='text' placeholder='The location of your private key' ng-model='config.git.apis.blih.privateKey'>
+						<div class='ui file input' ng-click='selectPath("git.apis.blih.privateKey")'>
+							<input type='text' readonly='' placeholder='The location of your private key' ng-model='config.git.apis.blih.privateKey'>
+							<input type='file'>
+							<div class="ui blue icon button"><i class="file icon"></i></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -76,15 +92,27 @@
 			</h2>
 			<div class='field'>
 				<label>Default project directory</label>
-				<input type='text' placeholder='The location of your active projects' ng-model='config.projects.directory'>
+				<div class='ui file input' ng-click='selectPath("projects.directory", true)'>
+					<input type='text' readonly='' placeholder='The location of your active projects' ng-model='config.projects.directory'>
+					<input type='file' webkitdirectory>
+					<div class="ui blue icon button"><i class="open folder icon"></i></div>
+				</div>
 			</div>
 			<div class='field'>
 				<label>Boilerplates directory</label>
-				<input type='text' placeholder='The location of your boilerplates' ng-model='config.projects.boilerplates'>
+				<div class='ui file input' ng-click='selectPath("projects.boilerplates", true)'>
+					<input type='text' readonly='' placeholder='The location of your boilerplates' ng-model='config.projects.boilerplates'>
+					<input type='file' webkitdirectory>
+					<div class="ui blue icon button"><i class="open folder icon"></i></div>
+				</div>
 			</div>
 			<div class='field'>
 				<label>Archive directory</label>
-				<input type='text' placeholder='The location of your archived projects' ng-model='config.archives.directory'>
+				<div class='ui file input' ng-click='selectPath("archives.directory", true)'>
+					<input type='text' readonly='' placeholder='The location of your boilerplates' ng-model='config.archives.directory'>
+					<input type='file' webkitdirectory>
+					<div class="ui blue icon button"><i class="open folder icon"></i></div>
+				</div>
 			</div>
 			<div class='inline field'>
 				<div class='ui toggle checkbox'>

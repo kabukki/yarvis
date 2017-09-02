@@ -26,53 +26,78 @@
 <!-- Form -->
 <form class='ui piled segment form'>
 	<!-- Git -->
-	<div class='inline field'>
-		<div class='ui checkbox'>
-			<input type="checkbox" ng-model='project.git.enabled'>
-			<label>Use version control with Git</label>
+	<div class='inline fields'>
+		<label for='gitRepo'>Project versioning with Git:</label>
+		<div class='field'>
+			<div class='ui radio checkbox'>
+				<input type="radio" name='gitRepo' value='new' ng-model='project.git.repo'>
+				<label>Create a new repository</label>
+			</div>
+		</div>
+		<div class='field'>
+			<div class='ui radio checkbox'>
+				<input type="radio" name='gitRepo' value='use' ng-model='project.git.repo'>
+				<label>Use an already existing repository</label>
+			</div>
+		</div>
+		<div class='field'>
+			<div class='ui radio checkbox'>
+				<input type="radio" name='gitRepo' value='none' ng-model='project.git.repo'>
+				<label>Do not use Git</label>
+			</div>
 		</div>
 	</div>
-	<div class='ui two column grid'>
+
+	<!-- New repo using API -->
+	<div class='ui two column grid' ng-show="project.git.repo === 'new'">
 		<div class='column'>
-			<div class='inline fields' ng-class="!project.git.enabled ? 'disabled' : ''">
-				<label for='gitAPI'>Remote host API to use:</label>
-				<div class='field'>
+			<div class='grouped fields'>
+				<label for='gitAPI'>Git API to use:</label>
+				<div class='field' ng-repeat='(key, api) in config.git.apis'>
 					<div class='ui radio checkbox'>
-						<input type="radio" name='gitAPI' value='github' ng-model='project.git.api' ng-change='updateCredentials()'>
-						<label>GitHub</label>
+						<input type="radio" name='gitAPI' value='{{ key }}' ng-model='project.git.api' ng-change='updateCredentials()'>
+						<label>{{ api.name }}</label>
 					</div>
 				</div>
-				<div class='field'>
-					<div class='ui radio checkbox'>
-						<input type="radio" name='gitAPI' value='blih' ng-model='project.git.api' ng-change='updateCredentials()'>
-						<label>Blih</label>
-					</div>
-				</div>
-				<div class='field'>
-					<div class='ui radio checkbox'>
-						<input type="radio" name='gitAPI' value='other' ng-model='project.git.api' ng-change='updateCredentials()'>
-						<label>Other (unused)</label>
-					</div>
-				</div>
-			</div>
-			<div class='ui horizontal divider'>Or</div>
-			<div class='field'>
-				<label>Remote host URL</label>
-				<input type="text" ng-model='project.git.remote'>
 			</div>
 		</div>
 		<!-- start right -->
 		<div class='column'>
-			<div class='field' ng-class="!project.git.enabled ? 'disabled' : ''">
+			<div class='field'>
 				<label>Username</label>
 				<input type='text' name='username' ng-model='project.git.username'>
 			</div>
-			<div class='field' ng-class="!project.git.enabled ? 'disabled' : ''">
+			<div class='field' ng-show="project.git.api == 'blih'">
+				<label>Legacy Username</label>
+				<div class='ui icon input'>
+					<input type='text' placeholder='Legacy username' ng-model='project.git.legacyUsername'
+							data-content='This is part of your remote URL. Usually the same as your regular username.' data-variation='wide inverted'>
+					<i class='circle help icon'></i>
+				</div>
+			</div>
+			<div class='field'>
 				<label>Password</label>
 				<input type='password' name='password' ng-model='project.git.password'>
 			</div>
 		</div>
 	</div>
+
+	<!-- Use existing repo -->
+	<div class='ui grid' ng-show="project.git.repo === 'use'">
+		<div class='column'>
+			<div class='field'>
+				<label>Remote host URL</label>
+				<input type="text" ng-model='project.git.remote'>
+			</div>
+			<div class='ui visible info icon message'>
+				<i class='help circle icon'></i>
+				<div class='content'>
+					<p>If possible, we will try to run a <code>git pull origin master</code>.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<div class='ui divider'></div>
 

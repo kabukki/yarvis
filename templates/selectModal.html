@@ -1,0 +1,8 @@
+<div class='grouped fields'>
+	<div class='field' ng-repeat='(key, choice) in inputs.choices'>
+		<div class='ui radio checkbox'>
+			<input type="radio" value='{{ key }}' ng-model='inputs.value'>
+			<label>{{ choice.name }}</label>
+		</div>
+	</div>
+</div>

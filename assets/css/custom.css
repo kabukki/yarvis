@@ -6,6 +6,9 @@ body {
 	margin: 0;
 }
 
+.ui.fluid.container > .large-title {
+	margin-top: 72px;
+}
 .large-title {
 	display: block;
 	margin: 0 0 30px 0;
@@ -55,4 +58,9 @@ body {
 }
 .color-pick:hover {
 	transform: scale(1.2);
+}
+
+/* File input */
+.ui.file.input input[type="file"] {
+    display: none;
 }

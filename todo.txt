@@ -1,3 +1,9 @@
-create project: validation des donnees via .form() ?
-Plus tard: gerer l'edition de projets (ajout de git, deadline ...)
-Lors de la creation : choix entre nouveau repo et assigner un repo existant
+- create project: validation des donnees via .form() ?
+- gerer l'edition de projets (ajout de git, deadline ...)
+- Eviter de stocker le mot de passe pour chaque projet dans le champ 'git.password'.
+- supprimer Other parmi les apis.
+- Utiliser des ng-templates au lieu de template pre-existants (semantics.modals)
+
+Ameliorations:
+- preferences.js: selectPath
+- ProjectManager: utiliser les promises plutot que callbacks enchaines

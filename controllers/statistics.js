@@ -10,11 +10,8 @@ angular.module('yarvis').controller('statisticsCtrl', ['$scope', ($scope) => {
 	});
 	$scope.data = data.store;
 
-	/* Projects */
-	$scope.getNbProjects = () => $scope.data.projects.length + $scope.data.archives.length;
+	$scope.getNbProjects = () => $scope.data.projects.length;
 	$scope.getNbFiles = () => 0;
-
-	/* Teamork */
-	$scope.getNbRepos = () => $scope.data.projects.concat($scope.data.archives).reduce((a, b) => a + b.git, 0);
+	$scope.getNbRepos = () => $scope.data.projects.reduce((a, b) => a + (b.git.repo !== 'none'), 0);
 }]);
 

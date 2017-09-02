@@ -1,4 +1,4 @@
-<div class='ui container'  ng-controller='projectsAllCtrl'>
+<div class='ui container' ng-controller='projectsAllCtrl'>
 	<!-- Ongoing -->
 	<h2 class='ui horizontal divider header'>
 		<i class='code icon'></i> Ongoing Projects
@@ -10,7 +10,7 @@
 		views ?
 	-->
 	<div class='ui link cards'>
-		<a class='card' ui-sref='projects.detail({p: project})' ng-repeat='project in data.projects'>
+		<a class='card' ui-sref='projects.detail({project: project})' ng-repeat='project in data.projects | filter: {active: true}'>
 			<div class='content'>
 				<div class='ui right floated {{ config.languages[project.language].color }} label'>{{ config.languages[project.language].name }}</div>
 				<div class='header'>{{ project.name }}</div>
@@ -37,16 +37,16 @@
 		<i class='archive icon'></i> Archived Projects
 	</h2>
 	<div class='ui link cards'>
-		<a class='card'  ui-sref='projects.detail({p: archive})' ng-repeat='archive in data.archives'>
+		<a class='card' ui-sref='projects.detail({project: project})' ng-repeat='project in data.projects | filter: {active: false}'>
 			<div class='content'>
-				<div class='ui right floated {{ config.languages[archive.language].color }} label'>{{ config.languages[archive.language].name }}</div>
-				<div class='header'>{{ archive.name }}</div>
-				<div class='meta'>{{ getMetaString(archive) }}</div>
-				<div class='description'>{{ archive.description }}</div>
+				<div class='ui right floated {{ config.languages[project.language].color }} label'>{{ config.languages[project.language].name }}</div>
+				<div class='header'>{{ project.name }}</div>
+				<div class='meta'>{{ getMetaString(project) }}</div>
+				<div class='description'>{{ project.description }}</div>
 			</div>
 			<div class='extra content'>
-				<div ng-if='archive.git'><span><i class='fork icon'></i> Versioned project</span></div>
-				<div ng-if='!archive.git'><span><i class='user icon'></i> Local project</span></div>
+				<div ng-if='project.git'><span><i class='fork icon'></i> Versioned project</span></div>
+				<div ng-if='!project.git'><span><i class='user icon'></i> Local project</span></div>
 			</div>
 		</a>
 	</div>

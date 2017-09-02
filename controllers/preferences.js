@@ -1,8 +1,9 @@
 'use strict';
 
 const Store = require('electron-store');
+const remote = require('electron').remote;
 
-angular.module('yarvis').controller('preferencesCtrl', ($scope) => {
+angular.module('yarvis').controller('preferencesCtrl', ($scope, $q) => {
 	const config = new Store({
 		name: 'config'
 	});
@@ -26,6 +27,26 @@ angular.module('yarvis').controller('preferencesCtrl', ($scope) => {
 		{ name: 'Brown', value: 'brown' },
 		{ name: 'Grey', value: 'grey' }
 	];
+
+	// TODO: bind dialog to mainWindow
+	$scope.selectPath = (prop, directory) => {
+		let path = remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+			//defaultPath: $scope.config[prop],
+			properties: [directory ? 'openDirectory' : 'openFile', 'createDirectory']
+		});
+		if (path) {
+			path = path[0];
+			console.log(path)
+			// TODO: replace this messy code
+			switch (prop) {
+				case 'projects.directory': $scope.config.projects.directory = path; break ;
+				case 'projects.boilerplates': $scope.config.projects.boilerplates = path; break ;
+				case 'archives.directory': $scope.config.archives.directory = path; break ;
+				case 'git.apis.github.privateKey': $scope.config.git.apis.github.privateKey = path; break ;
+				case 'git.apis.blih.privateKey': $scope.config.git.apis.blih.privateKey = path; break ;
+			}		
+		}
+	}
 
 	$scope.selectColor = (language, color) => {
 		console.log(`Selected ${color} for ${language}`)

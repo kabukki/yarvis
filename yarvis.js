@@ -6,7 +6,8 @@
 
 angular.module('yarvis', [
 	// Dependencies
-	'ui.router'
+	'ui.router',
+	'semantic.modals'
 ])
 .config(($stateProvider) => {
 	$stateProvider
@@ -24,7 +25,7 @@ angular.module('yarvis', [
 		templateUrl: 'views/projects-all.html'
 	})
 	.state('projects.detail', {
-		params: { p: null },
+		params: { project: null },
 		templateUrl: 'views/projects-detail.html',
 	})
 	.state('projects.new', {
@@ -83,13 +84,13 @@ angular.module('yarvis', [
  */
 
 .service('apiPromise', ['$q', function ($q) {
-	this.projectManagerAPI = (project, api) => {
+	this.projectManagerAPI = (project, api, arg) => {
 		let defer = $q.defer();
 		project[api]((err) => {
 			if (err)
 				defer.reject(err);
 			defer.resolve();
-		})
+		}, arg)
 		return defer.promise;
 	}
 }])

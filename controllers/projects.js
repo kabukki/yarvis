@@ -6,6 +6,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const child_process = require('child_process');
 const ProjectManager = require('../ProjectManager.js');
+const _ = require('lodash');
 
 angular.module('yarvis')
 
@@ -33,10 +34,9 @@ angular.module('yarvis')
 	}
 }])
 /* Projects - Detail */
-.controller('projectsDetailCtrl', ($state, $stateParams, $scope, apiPromise) => {
+.controller('projectsDetailCtrl', ($state, $stateParams, $scope, apiPromise, ModalService) => {
 	$scope.config = new Store({ name: 'config' }).store;
-
-	$scope.project = new ProjectManager($stateParams.p);
+	$scope.project = new ProjectManager($stateParams.project);
 	$scope.files = dirTree($scope.project.directory);
 	if ($scope.files === null) {
 		$scope.filesError = new Error('Could not read directory');
@@ -52,24 +52,127 @@ angular.module('yarvis')
 											moment(project.deadline).format('LLL') +
 											' (' + moment(project.deadline).fromNow() + ')';
 
+	$scope.getHiddenPassword = (password) => password && _.repeat('*', password.length) || 'None';
+
 	/* Actions */
+	$scope.gitInit = () => {
+		$scope.project.git.repo = 'use';
+		require('simple-git')($scope.project.directory).init();
+		$scope.project.save();
+	}
 	$scope.openDirectory = (path) => {
 		electron.shell.openItem(path)
+	}
+
+	$scope.actionMove = () => {
+		let path = electron.remote.dialog.showOpenDialog(electron.remote.getCurrentWindow(), {
+			defaultPath: $scope.project.directory,
+			properties: ['openDirectory', 'createDirectory']
+		});
+		delete $scope.error;
+		if (path) {
+			$scope.loading = true;
+			console.log(path)
+			apiPromise.projectManagerAPI($scope.project, 'move', path[0])
+				.catch((err) => {
+					$scope.error = err;
+				})
+				.finally(() => {
+					$scope.loading = false;
+				})
+		}
 	}
 
 	$scope.action = (action, redirect) => {
 		delete $scope.error;
 		$scope.loading = true;
 		apiPromise.projectManagerAPI($scope.project, action)
-		.then(() => {
-			if (redirect)
-				$state.go('projects.all');
+			.then(() => {
+				if (redirect)
+					$state.go('projects.all');
+			})
+			.catch((err) => {
+				$scope.error = err;
+			})
+			.finally(() => {
+				$scope.loading = false;
+			})
+	}
+
+	$scope.confirmAction = (action, redirect) => {
+		ModalService.showModal({
+			icon: 'trash',
+			title: 'Confirm action',
+			text: 'Are you sure ? This cannot be undone.',
+			positive: 'Proceed',
+			negative: 'Cancel',
+			basic: true
+		}).then((res) => {
+			if (!res.status) return;
+			$scope.action(action, redirect);
 		})
-		.catch((err) => {
-			$scope.error = err;
+	}
+
+	$scope.authAction = (action, redirect) => {
+		let inputs = {
+			username: $scope.project.git.username,
+			password: $scope.project.git.password
+		};
+
+		ModalService.showModal({
+			icon: 'user',
+			title: 'Authentication',
+			text: 'Please provide credentials to authenticate into the ' + $scope.project.git.api + ' API.',
+			htmlInclude: 'templates/authModal.html',
+			positive: 'Proceed',
+			negative: 'Cancel',
+			basic: false,
+			inputs: inputs
+		}).then((res) => {
+			if (!res.status) return;
+			$scope.project.git.username = res.inputs.username;
+			$scope.project.git.password = res.inputs.password;
+			$scope.project.save();
+			$scope.action(action, redirect);
 		})
-		.finally(() => {
-			$scope.loading = false;
+	}
+
+	/* Modals to edit project */
+	$scope.editModal = (prop, password) => {
+		ModalService.showModal({
+			icon: 'user',
+			title: 'Edit',
+			text: 'Edit the value of "' + prop + '"',
+			htmlInclude: 'templates/editModal.html',
+			positive: 'Proceed',
+			cancelable: false,
+			basic: false,
+			inputs: {
+				value: _.get($scope, prop),
+				password: password
+			}
+		}).then((res) => {
+			_.set($scope, prop, res.inputs.value)
+			$scope.project.save();
+		})
+	}
+
+	$scope.selectModal = (prop, choices) => {
+		ModalService.showModal({
+			icon: 'user',
+			title: 'Select',
+			text: 'Select the value of "' + prop + '" among the following',
+			htmlInclude: 'templates/selectModal.html',
+			positive: 'Proceed',
+			cancelable: false,
+			basic: false,
+			inputs: {
+				value: _.get($scope, prop),
+				choices: choices
+			}
+		}).then((res) => {
+			_.set($scope, prop, res.inputs.value)
+			$scope.project.save();
 		})
 	}
 })
@@ -83,10 +186,9 @@ angular.module('yarvis')
 		directory: $scope.config.projects.directory,
 		start: new moment().format(),
 		git: {
-			enabled: false,
-			username: $scope.config.git.username,
-			password: $scope.config.git.password
-		}
+			repo: 'none'
+		},
+		active: true
 	};
 	$scope.boilerplates = fs.readdirSync($scope.config.projects.boilerplates)
 							.map(dir => ({
@@ -125,6 +227,4 @@ angular.module('yarvis')
 			$scope.loading = false;
 		}
 	}
-
-	$scope.caca = () => { console.log('caca') }
 })

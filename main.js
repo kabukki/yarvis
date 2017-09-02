@@ -27,7 +27,6 @@ function createWindow () {
 	mainWindow.setProgressBar(0);
 	// debug
 	mainWindow.webContents.openDevTools();
-	electron.shell.beep();
 }
 
 /*
@@ -103,7 +102,6 @@ const data = new Store({
 	name: 'data',
 	defaults: {
 		'projects': [],
-		'archives': [],
 		'libraries': []
 	}
 });

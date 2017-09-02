@@ -1,10 +1,6 @@
 <div class='ui fluid container' ng-controller='statisticsCtrl'>
 	<div class='large-title bg-green bg-fancy'>Statistics</div>
 	<div class='ui container'>
-		<!-- Projects -->
-		<h2 class='ui horizontal divider header'>
-			<i class='code icon'></i> Projects
-		</h2>
 		<div class="ui three statistics">
 			<div class="huge red statistic">
 		    	<div class="value"><i class="lab icon"></i> {{ getNbProjects() }}</div>
@@ -14,13 +10,6 @@
 		    	<div class="value"><i class="file icon"></i> {{ getNbFiles() }}</div>
 		   		<div class="label">Files</div>
 		  	</div>
-		</div>
-
-		<!-- Teamwork -->
-		<h2 class='ui horizontal divider header'>
-			<i class='users icon'></i> Teamwork
-		</h2>
-		<div class="ui two statistics">
 			<div class="huge pink statistic">
 		    	<div class="value"><i class="tag icon"></i> {{ getNbRepos() }}</div>
 		   		<div class="label">Shared repositories</div>
