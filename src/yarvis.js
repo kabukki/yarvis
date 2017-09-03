@@ -8,11 +8,11 @@ angular.module('yarvis', [
   'ui.router',
   'semantic.modals',
 ])
-.config(($stateProvider) => {
+.config(($stateProvider, $urlRouterProvider) => {
   $stateProvider
   /* Home (TODO) */
-  .state('home', {
-    url: '/',
+  .state('welcome', {
+    url: '/welcome',
     templateUrl: '../views/welcome.html',
   })
 
@@ -60,6 +60,8 @@ angular.module('yarvis', [
     url: '/preferences',
     templateUrl: '../views/preferences.html',
   });
+
+  $urlRouterProvider.otherwise('/welcome');
 })
 
 /*
