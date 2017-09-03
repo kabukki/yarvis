@@ -1,0 +1,20 @@
+<div class='ui container' ng-controller='librariesAllCtrl'>
+	<div class='ui container'>
+		<div class='ui link cards'>
+      <a class='card' ng-repeat='library in data.libraries'>
+  			<div class='content'>
+  				<div class='ui right floated {{ config.languages[library.language].color }} label'>
+            {{ config.languages[library.language].name }}
+          </div>
+  				<div class='header'>{{ library.name }}</div>
+  				<div class='meta'>{{ getMetaString(library) }}</div>
+  				<div class='description'>{{ library.description }}</div>
+  			</div>
+  			<div class='extra content'>
+  				<div ng-if="library.git.repo !== 'none'"><span><i class='fork icon'></i> Versioned library</span></div>
+  				<div ng-if="library.git.repo === 'none'"><span><i class='user icon'></i> Local library</span></div>
+  			</div>
+  		</a>
+		</div>
+	</div>
+</div>

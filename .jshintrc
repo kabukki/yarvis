@@ -1,0 +1,10 @@
+{
+  "node": true,
+  "esversion": 6,
+  "globals": {
+    "angular": true,
+    "moment": true
+  },
+  "undef": true,
+  "unused": true
+}

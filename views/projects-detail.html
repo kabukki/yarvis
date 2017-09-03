@@ -100,14 +100,14 @@
 				</div>
 			</div>
 			<!-- Archive/Unarchive -->
-			<div class='item' ng-hide='filesError || !project.active'>
+			<div class='item' ng-hide='filesError || !project.active || !config.archives.directory'>
 				<i class='big inverted circular teal archive link icon' ng-click="action('archive')"></i>
 				<div class='content'>
 					<div class='header'>Archive</div>
 					<div class='description'>Archive this project</div>
 				</div>
 			</div>
-			<div class='item' ng-hide='filesError || project.active'>
+			<div class='item' ng-hide='filesError || project.active || !config.projects.directory'>
 				<i class='big inverted circular teal lab link icon' ng-click="action('unarchive')"></i>
 				<div class='content'>
 					<div class='header'>Unarchive</div>

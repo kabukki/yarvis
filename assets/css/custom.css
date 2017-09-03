@@ -32,8 +32,12 @@ body {
 .bg-green {
 	background-color: #45b878;
 }
-.bg-yellow {
-	background-color: #d6d333;
+.bg-orange {
+	background-color: #e67300;
+}
+.bg-purple {
+  background-color: #574566;
+  color: #fff;
 }
 
 /* New card */

@@ -3,12 +3,6 @@
 	<h2 class='ui horizontal divider header'>
 		<i class='code icon'></i> Ongoing Projects
 	</h2>
-	<!-- TODO:
-		project
-		project.all
-		project.detail
-		views ?
-	-->
 	<div class='ui link cards'>
 		<a class='card' ui-sref='projects.detail({project: project})' ng-repeat='project in data.projects | filter: {active: true}'>
 			<div class='content'>
@@ -18,8 +12,8 @@
 				<div class='description'>{{ project.description }}</div>
 			</div>
 			<div class='extra content'>
-				<div ng-if='project.git'><span><i class='fork icon'></i> Versioned project</span></div>
-				<div ng-if='!project.git'><span><i class='user icon'></i> Local project</span></div>
+				<div ng-if="project.git.repo !== 'none'"><span><i class='fork icon'></i> Versioned project</span></div>
+				<div ng-if="project.git.repo === 'none'"><span><i class='user icon'></i> Local project</span></div>
 			</div>
 		</a>
 
@@ -45,8 +39,8 @@
 				<div class='description'>{{ project.description }}</div>
 			</div>
 			<div class='extra content'>
-				<div ng-if='project.git'><span><i class='fork icon'></i> Versioned project</span></div>
-				<div ng-if='!project.git'><span><i class='user icon'></i> Local project</span></div>
+				<div ng-if="project.git.repo !== 'none'"><span><i class='fork icon'></i> Versioned project</span></div>
+				<div ng-if="project.git.repo === 'none'"><span><i class='user icon'></i> Local project</span></div>
 			</div>
 		</a>
 	</div>

@@ -1,16 +1,16 @@
 {
-  "name": "Y.A.R.V.I.S",
-  "version": "0.0.1",
+  "name": "YARVIS",
+  "version": "0.0.3",
   "description": "A Personal Assistant for programmers.",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "test": "electron .",
     "start": "electron ."
   },
   "author": "Lucien Le Roux",
   "licence": "GPL-3.0",
   "devDependencies": {
-    "electron": "^1.7.5"
+    "electron": "^1.7.5",
+    "electron-packager": "^9.0.1"
   },
   "dependencies": {
     "blih-api": "^1.3.0",

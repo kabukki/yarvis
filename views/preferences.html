@@ -44,7 +44,7 @@
 					</div>
 					<div class='field'>
 						<label>SSH private key</label>
-						<div class='ui file input' ng-click='selectPath("git.apis.github.privateKey")'>
+						<div class='ui file input' ng-click='selectPath("config.git.apis.github.privateKey")'>
 							<input type='text' readonly='' placeholder='The location of your private key' ng-model='config.git.apis.github.privateKey'>
 							<input type='file'>
 							<div class="ui blue icon button"><i class="file icon"></i></div>
@@ -77,7 +77,7 @@
 					</div>
 					<div class='field'>
 						<label>SSH private key</label>
-						<div class='ui file input' ng-click='selectPath("git.apis.blih.privateKey")'>
+						<div class='ui file input' ng-click='selectPath("config.git.apis.blih.privateKey")'>
 							<input type='text' readonly='' placeholder='The location of your private key' ng-model='config.git.apis.blih.privateKey'>
 							<input type='file'>
 							<div class="ui blue icon button"><i class="file icon"></i></div>
@@ -92,7 +92,7 @@
 			</h2>
 			<div class='field'>
 				<label>Default project directory</label>
-				<div class='ui file input' ng-click='selectPath("projects.directory", true)'>
+				<div class='ui file input' ng-click='selectPath("config.projects.directory", true)'>
 					<input type='text' readonly='' placeholder='The location of your active projects' ng-model='config.projects.directory'>
 					<input type='file' webkitdirectory>
 					<div class="ui blue icon button"><i class="open folder icon"></i></div>
@@ -100,7 +100,7 @@
 			</div>
 			<div class='field'>
 				<label>Boilerplates directory</label>
-				<div class='ui file input' ng-click='selectPath("projects.boilerplates", true)'>
+				<div class='ui file input' ng-click='selectPath("config.projects.boilerplates", true)'>
 					<input type='text' readonly='' placeholder='The location of your boilerplates' ng-model='config.projects.boilerplates'>
 					<input type='file' webkitdirectory>
 					<div class="ui blue icon button"><i class="open folder icon"></i></div>
@@ -108,7 +108,7 @@
 			</div>
 			<div class='field'>
 				<label>Archive directory</label>
-				<div class='ui file input' ng-click='selectPath("archives.directory", true)'>
+				<div class='ui file input' ng-click='selectPath("config.archives.directory", true)'>
 					<input type='text' readonly='' placeholder='The location of your boilerplates' ng-model='config.archives.directory'>
 					<input type='file' webkitdirectory>
 					<div class="ui blue icon button"><i class="open folder icon"></i></div>
