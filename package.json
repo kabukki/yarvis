@@ -7,7 +7,7 @@
     "start": "electron .",
     "package-linux": "electron-packager . --out=dist --overwrite --prune=true --platform=linux --arch=x64",
     "package-win": "electron-packager . --out=dist --overwrite --prune=true --platform=win32 --arch=ia32",
-    "test": "./node_modules/jshint/bin/jshint src/main.js"
+    "test": "ls -lR ./node_modules; ./node_modules/jshint/bin/jshint src/main.js"
   },
   "author": "Lucien Le Roux",
   "licence": "GPL-3.0",
