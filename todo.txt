@@ -1,9 +1,137 @@
+En cours:
+- (Re)ecriture totale de Project, ProjectManager et GitApi.
+
 To do:
 - gerer l'edition de projets (deadline ...)
 - Update treeView quand dossier mis a jour (link ?)
+- Tests avec Mochajs
+- Gestion plus claire de Git (liee a #A1)
 
 Ameliorations:
 - ProjectManager: utiliser les promises plutot que callbacks enchaines (revoir entierement la classe)
-- Eviter de stocker le mot de passe pour chaque projet dans le champ 'git.password' (trouver une alternative)
+- Eviter de stocker le mot de passe pour chaque projet dans le champ 'git.password' (trouver une alternative).
+  A la place, stocker une liste de credentials par defaut. et par API.
 - Utiliser des ng-templates au lieu de template pre-existants (semantics.modals)
 - create project: validation des donnees via .form() ?
+- Filtrer les projets (par language / nom / date ...)
+
+==============
+
+###########################
+###########################
+######### Project #########
+###########################
+###########################
+
+###################
+### Constructor ###
+###################
+
+let project = new Project('Zappy', '/home/le-rou_c/docs/PSU_2016_zappy');
+// si dossier existe, charge-le
+// si dossier n'existe pas, cree-le
+
+##################
+### Properties ###
+##################
+
+project.name = 'Zappy';
+// Le 'name' n'influe pas sur le dossier
+
+project.description = 'A network unix game.';
+project.language = 'c';
+project.active = false;
+// 'description', 'language' et 'active' n'ont pas d'influence sur le projet et sont seulement informatives.
+
+project.start = new Date();
+project.deadline = new Date();
+// start and deadline are javascript Date objects.
+
+project.git.enabled = true;
+project.git.remotes = ['origin'];
+project.git.remotes['origin'].url = 'git@git.epitech.eu:/ophelie.berrier@epitech.eu/PSU_2016_zappy';
+project.git.api = 'blih'; // API to use Git methods
+// 'git' is an object containing multiple proprties used to perform Git actions on the repo.
+
+#######################
+### Regular methods ###
+#######################
+
+moveTo('/home/le-rou_c/archive/psu');
+// deplace le dossier du projet
+
+include('/opt/YARVIS/boilerplates/c-basic');
+// Includes the contents of another directory into this one (recursively, not overwriting)
+
+delete()
+// deletes the directory
+
+###################
+### Git methods ###
+###################
+
+gitEnable();
+gitDisable();
+// enable or disable git (acts on .git itself, be careful)
+
+gitRemoteAdd('origin', 'git@git.epitech.eu:/ophelie.berrier@epitech.eu/PSU_2016_zappy');
+gitRemoteRemove('origin');
+// ajoute / supprime un remote
+
+gitRemotePull('origin')
+// pull depuis une remote
+
+
+###############
+### Git API ###
+###############
+
+gitCreateRepository('lucien.le-roux@epitech.eu', 'motDePasseIncroyable', 'le-rou_c');
+// cree un repository du meme nom que le projet
+
+gitDeleteRepository();
+// supprime un repository du meme nom que le projet
+
+gitAddCollaborator('ramassage-tek', 'r');
+gitAddCollaborator('nathan.jaunet@epitech.eu', 'rw');
+// Adds a collaborator to a project
+
+##################################
+##################################
+######### ProjectManager #########
+##################################
+##################################
+
+###################
+### Constructor ###
+###################
+
+let projectManager = new ProjectManager('/home/le-rou_c/.config/YARVIS/projects.json');
+// si le fichier existe, charge son contenu
+// sinon, cree un fichier vide
+
+##################
+### Properties ###
+##################
+
+projectManager.projects = [project];
+// la liste des projets suivis (classe Project)
+
+#######################
+### Regular methods ###
+#######################
+
+getProject('Zappy');
+// get a project by its name
+
+addProject(project);
+// add a project to the tracked ones
+
+removeProject('Zappy');
+// remove a project from the tracked ones
+
+removeAll();
+// remove all projects
+
+write();
+// save this to the filesystem

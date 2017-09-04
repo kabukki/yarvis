@@ -3,7 +3,9 @@
   "esversion": 6,
   "globals": {
     "angular": true,
-    "moment": true
+    "moment": true,
+    "describe": true,
+    "it": true
   },
   "undef": true,
   "unused": true
