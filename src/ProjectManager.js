@@ -95,9 +95,8 @@ class ProjectManager {
               }
             });
           } else {
-            this.addRemote(() => {
+            this.updateRemote(() => {
               this.pullRemote(() => {
-                //console.log(err);
                 this.save();
                 callback();
               });
@@ -173,6 +172,15 @@ class ProjectManager {
   addRemote (callback) {
     git.cwd(this.directory)
       .init()
+      .addRemote('origin', this.git.remote, callback);
+  }
+
+  /*
+   * Update git.remote
+   */
+  updateRemote (callback) {
+    git.cwd(this.directory)
+      .removeRemote('origin')
       .addRemote('origin', this.git.remote, callback);
   }
 
