@@ -7,13 +7,14 @@
     "start": "electron .",
     "package-linux": "electron-packager . --out=dist --overwrite --prune=true --platform=linux --arch=x64",
     "package-win": "electron-packager . --out=dist --overwrite --prune=true --platform=win32 --arch=ia32",
-    "test": "ls -lR ./node_modules; ./node_modules/jshint/bin/jshint src/main.js"
+    "test": "./node_modules/jshint/bin/jshint src/main.js"
   },
   "author": "Lucien Le Roux",
   "licence": "GPL-3.0",
   "devDependencies": {
     "electron": "^1.7.5",
-    "electron-packager": "^9.0.1"
+    "electron-packager": "^9.0.1",
+    "jshint": "^2.9.5"
   },
   "dependencies": {
     "blih-api": "^1.3.0",
