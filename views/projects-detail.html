@@ -5,7 +5,7 @@
 	</h2>
 	<div class='ui segments'>
 		<div class='ui center aligned {{ config.languages[project.language].color }} segment'>
-			<p>{{ project.description }}</p>
+			<p>{{ project.description || 'No description.' }}</p>
 		</div>
 		<div class='ui horizontal segments'>
 			<div class='ui center aligned segment'>
@@ -145,5 +145,5 @@
 	/*
 	 * Semantic init
 	 */
-	 $('input').popup({ on: 'focus' })
+	 $('input').popup({ on: 'focus' });
 </script>

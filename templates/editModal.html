@@ -1,5 +1,17 @@
-<form class='ui form'>
-	<div class='field'>
-		<input type="{{ inputs.password ? 'password' : 'text'}}" ng-model='inputs.value'>
-	</div>
-</form>
+<script type='text/ng-template' id='editModal'>
+  <div class='ui modal'>
+    <div class='ui icon header'>
+      <i class='write icon'></i>
+      Edit a value
+    </div>
+    <div class='content'>
+      <form class='ui form'>
+      	<div class='field'>
+      		<input type="{{ inputs.password ? 'password' : 'text'}}" ng-model='inputs.value'>
+      	</div>
+      </form>
+    </div>
+    <div class='actions'>
+      <div class='ui green approve inverted button' ng-click='close(true)'><i class="checkmark icon"></i> OK</div>
+    </div>
+  </script>

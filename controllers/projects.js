@@ -98,11 +98,8 @@ angular.module('yarvis')
 
     $scope.confirmAction = (action, redirect) => {
       ModalService.showModal({
-        icon: 'trash',
-        title: 'Confirm action',
-        text: 'Are you sure ? This cannot be undone.',
-        positive: 'Proceed',
-        negative: 'Cancel',
+        templateId: 'confirmModal',
+        templateUrl: '../templates/confirmModal.html'
       }).then((res) => {
         if (!res.status) return;
         $scope.action(action, redirect);
@@ -116,16 +113,12 @@ angular.module('yarvis')
       };
 
       ModalService.showModal({
-        icon: 'user',
-        title: 'Authentication',
-        text: `Please provide credentials to authenticate into the ${$scope.project.git.api} API.`,
-        htmlInclude: 'templates/authModal.html',
-        positive: 'Proceed',
-        negative: 'Cancel',
-        basic: false,
+        templateId: 'authModal',
+        templateUrl: '../templates/authModal.html',
         inputs: inputs,
       }).then((res) => {
         if (!res.status) return;
+        // action(res.inputs.username, res.inputs.password);
         $scope.project.git.username = res.inputs.username;
         $scope.project.git.password = res.inputs.password;
         $scope.project.save();
@@ -136,12 +129,8 @@ angular.module('yarvis')
     /* Modals to edit project */
     $scope.editModal = (prop, password) => {
       ModalService.showModal({
-        icon: 'user',
-        title: 'Edit',
-        text: 'Edit the value of "' + prop + '"',
-        htmlInclude: 'templates/editModal.html',
-        positive: 'Proceed',
-        cancelable: false,
+        templateId: 'editModal',
+        templateUrl: '../templates/editModal.html',
         inputs: {
           value: _.get($scope, prop),
           password: password,
@@ -154,12 +143,8 @@ angular.module('yarvis')
 
     $scope.selectModal = (prop, choices) => {
       ModalService.showModal({
-        icon: 'user',
-        title: 'Select',
-        text: 'Select the value of "' + prop + '" among the following',
-        htmlInclude: 'templates/selectModal.html',
-        positive: 'Proceed',
-        cancelable: false,
+        templateId: 'selectModal',
+        templateUrl: '../templates/selectModal.html',
         inputs: {
           value: _.get($scope, prop),
           choices: choices,

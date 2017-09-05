@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs-extra');
-const git = require('simple-git');
+const git = require('simple-git')();
 const path = require('path');
 const GitApi = require('./GitApi.js');
 
@@ -14,7 +14,9 @@ class Project {
   constructor (name, directory) {
     if (!name || !directory)
       throw new Error('Missing mandatory arguments name and directory');
-    fs.ensureDir(directory);
+    if (!path.isAbsolute(directory))
+      throw new Error('Project path must be absolute');
+    fs.ensureDirSync(directory);
     this.name = name;
     this.directory = directory;
     this.git = {
@@ -110,9 +112,9 @@ class Project {
     });
   }
 
-  /***************/
-  /* Git methods */
-  /***************/
+  /***********/
+  /* Git API */
+  /***********/
 
   gitCreateRepository(username, password, options) {
     return new Promise((resolve, reject) => {

@@ -1,10 +1,26 @@
-<form class='ui form'>
-	<div class='required field'>
-		<label>Username</label>
-		<input type='text' name='username' ng-model='inputs.username'>
-	</div>
-	<div class='required field'>
-		<label>Password</label>
-		<input type='password' name='password' ng-model='inputs.password'>
-	</div>
-</form>
+<script type='text/ng-template' id='authModal'>
+  <div class='ui modal'>
+    <div class='ui icon header'>
+      <i class='protect icon'></i>
+      Authenticate
+    </div>
+    <div class='content'>
+      <form class='ui form'>
+      	<div class='required field'>
+      		<label>Username</label>
+      		<input type='text' name='username' ng-model='inputs.username'>
+      	</div>
+      	<div class='required field'>
+      		<label>Password</label>
+      		<input type='password' name='password' ng-model='inputs.password'>
+      	</div>
+        <button class='ui yellow labeled icon button' type='submit' ng-click='close(true)'>
+          <i class='plus icon'></i>Proceed
+        </button>
+      </form>
+    </div>
+    <div class='actions'>
+      <div class='ui green approve inverted button' ng-click='close(true)'><i class="checkmark icon"></i> Proceed</div>
+    </div>
+  </div>
+</script>

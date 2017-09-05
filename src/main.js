@@ -111,6 +111,7 @@ app.on('ready', () => {
     {
       label: 'Dev Tools',
       click: () => mainWindow.webContents.openDevTools(),
+      accelerator: 'Ctrl+Shift+I',
     }
   ]));
 })

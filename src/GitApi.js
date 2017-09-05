@@ -44,28 +44,33 @@ class GitApi {
   create (name, options) {
     return new Promise((resolve, reject) => {
       options = options || {};
-      switch (this.type) {
-        case 'github':
-          this.api.create({
-            name: name,
-            description: options.description,
-          })
-          .then((res) => {
-            resolve(res.data.clone_url);
-          }).catch(reject);
-          break;
 
-        case 'blih':
-          this.api.createRepository(name, (err) => {
-            if (err) {
-              reject(err);
-            } else if (options.legacyUsername && typeof options.legacyUsername === 'string') {
-              resolve('git@git.epitech.eu:/' + options.legacyUsername + '/' + name);
-            } else {
-              resolve();
-            }
-          });
-          break;
+      if (!this.api) {
+        reject(new Error('You must first authenticate into the API.'));
+      } else {
+        switch (this.type) {
+          case 'github':
+            this.api.create({
+              name: name,
+              description: options.description,
+            })
+            .then((res) => {
+              resolve(res.data.clone_url);
+            }).catch(reject);
+            break;
+
+          case 'blih':
+            this.api.createRepository(name, (err) => {
+              if (err) {
+                reject(err);
+              } else if (options.legacyUsername && typeof options.legacyUsername === 'string') {
+                resolve('git@git.epitech.eu:/' + options.legacyUsername + '/' + name);
+              } else {
+                resolve();
+              }
+            });
+            break;
+        }
       }
     });
   }
@@ -73,3 +78,5 @@ class GitApi {
   // delete
 
 }
+
+module.exports = GitApi;
