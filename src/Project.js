@@ -23,6 +23,18 @@ class Project {
       enabled: false,
       remotes: {},
     };
+    /* Automatically detect git and its remotes. */
+    if (fs.existsSync(path.join(this.directory, '.git'))) {
+      this.git.enabled = true;
+      git.cwd(this.directory)
+        .getRemotes(true, (err, res) => {
+          if (!err)
+            res.forEach((remote) => {
+              if (remote.name)
+                this.git.remotes[remote.name] = remote.refs;
+            });
+        });
+      }
   }
 
   /*******************/
@@ -72,13 +84,15 @@ class Project {
   }
 
   gitRemoteAdd (remote, url) {
+    if (!remote || !url)
+      throw new Error('Missing mandatory arguments remote and url');
     return new Promise((resolve, reject) => {
       git.cwd(this.directory)
         .addRemote(remote, url, (err) => {
           if (err) {
             reject();
           } else {
-            this.git.remotes[remote] = { url: url };
+            this.git.remotes[remote] = { refs: { fetch: url, push: url } };
             resolve();
           }
         });
@@ -86,6 +100,8 @@ class Project {
   }
 
   gitRemoteRemove (remote) {
+    if (!remote)
+      throw new Error('Missing mandatory argument remote');
     return new Promise((resolve, reject) => {
       git.cwd(this.directory)
         .removeRemote(remote, (err) => {
@@ -99,10 +115,12 @@ class Project {
     });
   }
 
-  gitRemotePull (remote) {
+  gitRemotePull (remote, branch) {
+    if (!remote || !branch)
+      throw new Error('Missing mandatory arguments remote and branch');
     return new Promise((resolve, reject) => {
       git.cwd(this.directory)
-        .pull(remote, (err) => {
+        .pull(remote, branch, (err) => {
           if (err) {
             reject();
           } else {
@@ -117,12 +135,14 @@ class Project {
   /***********/
 
   gitCreateRepository(username, password, options) {
+    if (!username || !password)
+      throw new Error('Missing mandatory arguments username and password');
     return new Promise((resolve, reject) => {
       let api = new GitApi(this.git.api);
 
       options = options || {};
       api.authenticate(username, password)
-        .create(this.name, {
+        .create(username, this.name, {
           description: this.description,
           legacyUsername: options.legacyUsername,
         })
@@ -136,13 +156,26 @@ class Project {
     });
   }
 
-  gitDeleteRepository(username, password, options) {
+  gitDeleteRepository(username, password) {
+    if (!username || !password)
+      throw new Error('Missing mandatory arguments username and password');
     return new Promise((resolve, reject) => {
       let api = new GitApi(this.git.api);
 
-      options = options || {};
       api.authenticate(username, password)
-        .delete(this.name, { })
+        .delete(username, this.name)
+        .then(resolve).catch(reject);
+    });
+  }
+
+  gitAddCollaborator (username, password, collaborator, rights) {
+    if (!username || !password || !collaborator || !rights)
+      throw new Error('Missing mandatory arguments username, password, collaborator and rights');
+    return new Promise((resolve, reject) => {
+      let api = new GitApi(this.git.api);
+
+      api.authenticate(username, password)
+        .addCollaborator(username, this.name, collaborator, rights)
         .then(resolve).catch(reject);
     });
   }

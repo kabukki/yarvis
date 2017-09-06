@@ -14,7 +14,7 @@ class GitApi {
   constructor (type) {
     if (!type)
       throw new Error('Missing mandatory argument type');
-    if (supportedApis.indexOf(type) < 0)
+    if (!~supportedApis.indexOf(type))
       throw new Error('This API is not supported');
     this.type = type;
   }
@@ -41,7 +41,7 @@ class GitApi {
     return this;
   }
 
-  create (name, options) {
+  create (username, name, options) {
     return new Promise((resolve, reject) => {
       options = options || {};
 
@@ -50,7 +50,7 @@ class GitApi {
       } else {
         switch (this.type) {
           case 'github':
-            this.api.create({
+            this.api.repos.create({
               name: name,
               description: options.description,
             })
@@ -66,7 +66,7 @@ class GitApi {
               } else if (options.legacyUsername && typeof options.legacyUsername === 'string') {
                 resolve('git@git.epitech.eu:/' + options.legacyUsername + '/' + name);
               } else {
-                resolve();
+                resolve('git@git.epitech.eu:/' + username + '/' + name);
               }
             });
             break;
@@ -75,7 +75,68 @@ class GitApi {
     });
   }
 
-  // delete
+  delete (username, name) {
+    return new Promise((resolve, reject) => {
+      if (!this.api) {
+        reject(new Error('You must first authenticate into the API.'));
+      } else {
+        switch (this.type) {
+          case 'github':
+            this.api.repos.delete({
+              owner: username,
+              repo: name,
+            })
+            .then(resolve)
+            .catch(reject);
+            break;
+
+          case 'blih':
+            this.api.deleteRepository(name, (err, res) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(res.message);
+              }
+            });
+            break;
+        }
+      }
+    });
+  }
+
+  addCollaborator (username, name, collaborator, rights) {
+    return new Promise((resolve, reject) => {
+      if (!this.api) {
+        reject(new Error('You must first authenticate into the API.'));
+      } else {
+        switch (this.type) {
+          case 'github':
+            this.api.repos.addCollaborator({
+              owner: username,
+              repo: name,
+              username: collaborator,
+              permission: ~rights.indexOf('a') ? 'admin'
+                          : ~rights.indexOf('w') ? 'push'
+                          : ~rights.indexOf('r') ? 'pull'
+                          : undefined,
+            })
+            .then(resolve)
+            .catch(reject);
+            break;
+
+          case 'blih':
+            this.api.setAcl(name, collaborator, rights, (err, res) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(res);
+              }
+            });
+            break;
+        }
+      }
+    });
+  }
 
 }
 

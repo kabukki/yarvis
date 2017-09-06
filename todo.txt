@@ -6,9 +6,9 @@ To do:
 - gerer l'edition de projets en detail (deadline ...)
 - Update treeView quand dossier mis a jour (link ?)
 - Gestion plus claire de Git (liee a #A1)
+- Ecrire une doc pour les classes
 
 Ameliorations:
-- ProjectManager: utiliser les promises plutot que callbacks enchaines (revoir entierement la classe)
 - Eviter de stocker le mot de passe pour chaque projet dans le champ 'git.password' (trouver une alternative).
   A la place, stocker une liste de credentials par defaut. et par API.
 - create project: validation des donnees via .form() ?

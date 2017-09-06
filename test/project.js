@@ -111,7 +111,7 @@ describe('Project', () => {
       let p = new Project(pName, pDir);
       expect(p.gitEnable()).to.eventually.have.deep.property('git.enabled', true);
     });
-    it('fulfilled if arguments ok', () => {
+    it('fulfilled', () => {
       return new Project(pName, pDir).gitEnable().should.be.fulfilled;
     });
   });
@@ -127,8 +127,26 @@ describe('Project', () => {
       let p = new Project(pName, pDir);
       expect(p.gitDisable()).to.eventually.have.deep.property('git.enabled', false);
     });
-    it('fulfilled if arguments ok', () => {
+    it('fulfilled', () => {
       return new Project(pName, pDir).gitDisable().should.be.fulfilled;
+    });
+  });
+
+  describe('gitRemoteAdd', () => {
+    it('fails if is not a git directory', () => {
+      return new Project(pName, pDir).gitRemoteAdd('origin', 'http://caca').should.be.rejected;
+    });
+  });
+
+  describe('gitRemoteRemove', () => {
+    it('fails if not a git repository', () => {
+      return new Project(pName, pDir).gitRemoteRemove('origin').should.be.rejected;
+    });
+    it('fails if remote doesnt exist', () => {
+      let p = new Project(pName, pDir);
+      return p.gitEnable().then(() => {
+        return p.gitRemoteRemove('origin').should.be.rejected;
+      });
     });
   });
 
